@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secondhand Book Marketplace - Register</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 520px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        /* Role Switch */
+        .role-switch {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 12px;
+        }
+
+        .role-btn {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .role-btn.active {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .role-btn:not(.active) {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+
+        <!-- Role Selection Buttons -->
+        <div class="role-switch">
+            <button class="role-btn active" id="buyerBtn">Buyer</button>
+            <button class="role-btn" id="sellerBtn">Seller</button>
+        </div>
+
+        <!-- Registration Form (ALL fields visible for both roles) -->
+        <form id="registerForm">
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required>
+                <div class="error-message" id="nameError">Only alphabetical letters and spaces are allowed</div>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" required>
+                <div class="error-message" id="addressError">Only alphanumeric characters and spaces are allowed</div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+                <div class="error-message" id="phoneError">Please enter a valid 11-digit China phone number</div>
+            </div>
+
+            <!-- Email Address -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error-message" id="emailError">Must contain @ exactly once and end with .com or .cn</div>
+            </div>
+
+            <!-- Username -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <div class="error-message" id="usernameError">Must be at least 6 alphanumeric characters</div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div class="error-message" id="passwordError">Must be at least 6 alphanumeric characters</div>
+            </div>
+
+            <button type="submit" class="submit-btn">Register Now</button>
+        </form>
+    </div>
+
+    <script>
+        // DOM Elements
+        const buyerBtn = document.getElementById('buyerBtn');
+        const sellerBtn = document.getElementById('sellerBtn');
+        const registerForm = document.getElementById('registerForm');
+
+        // Form Fields & Error Messages
+        const nameInput = document.getElementById('fullName');
+        const nameError = document.getElementById('nameError');
+        const addressInput = document.getElementById('address');
+        const addressError = document.getElementById('addressError');
+        const phoneInput = document.getElementById('phone');
+        const phoneError = document.getElementById('phoneError');
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const usernameInput = document.getElementById('username');
+        const usernameError = document.getElementById('usernameError');
+        const passwordInput = document.getElementById('password');
+        const passwordError = document.getElementById('passwordError');
+
+        // Role Switch Logic (no fields hidden - only visual toggle)
+        buyerBtn.addEventListener('click', () => {
+            buyerBtn.classList.add('active');
+            sellerBtn.classList.remove('active');
+        });
+
+        sellerBtn.addEventListener('click', () => {
+            sellerBtn.classList.add('active');
+            buyerBtn.classList.remove('active');
+        });
+
+        // Validation Functions (matches all requirements from the image)
+        function validateName() {
+            // Only alphabetical letters and space
+            const regex = /^[A-Za-z\s]+$/;
+            if (!regex.test(nameInput.value.trim())) {
+                nameError.style.display = 'block';
+                return false;
+            }
+            nameError.style.display = 'none';
+            return true;
+        }
+
+        function validateAddress() {
+            // Only alphanumeric characters and space
+            const regex = /^[A-Za-z0-9\s]+$/;
+            if (!regex.test(addressInput.value.trim())) {
+                addressError.style.display = 'block';
+                return false;
+            }
+            addressError.style.display = 'none';
+            return true;
+        }
+
+        function validatePhone() {
+            // China phone number (11 digits, starts with 1 followed by 3-9)
+            const regex = /^1[3-9]\d{9}$/;
+            if (!regex.test(phoneInput.value.trim())) {
+                phoneError.style.display = 'block';
+                return false;
+            }
+            phoneError.style.display = 'none';
+            return true;
+        }
+
+        function validateEmail() {
+            // Contains @ exactly once and ends with .com or .cn
+            const regex = /^[^\s@]+@[^\s@]+\.(com|cn)$/;
+            if (!regex.test(emailInput.value.trim())) {
+                emailError.style.display = 'block';
+                return false;
+            }
+            emailError.style.display = 'none';
+            return true;
+        }
+
+        function validateUsername() {
+            // At least 6 alphanumeric characters
+            const regex = /^[A-Za-z0-9]{6,}$/;
+            if (!regex.test(usernameInput.value.trim())) {
+                usernameError.style.display = 'block';
+                return false;
+            }
+            usernameError.style.display = 'none';
+            return true;
+        }
+
+        function validatePassword() {
+            // At least 6 alphanumeric characters
+            const regex = /^[A-Za-z0-9]{6,}$/;
+            if (!regex.test(passwordInput.value.trim())) {
+                passwordError.style.display = 'block';
+                return false;
+            }
+            passwordError.style.display = 'none';
+            return true;
+        }
+
+        // Form Submission Handler
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            // Validate ALL fields (same for both Buyer and Seller)
+            if (!validateName()) isValid = false;
+            if (!validateAddress()) isValid = false;
+            if (!validatePhone()) isValid = false;
+            if (!validateEmail()) isValid = false;
+            if (!validateUsername()) isValid = false;
+            if (!validatePassword()) isValid = false;
+
+            // Submit if all validations pass
+            if (isValid) {
+                const selectedRole = document.querySelector('.role-btn.active').id === 'buyerBtn' ? 'Buyer' : 'Seller';
+                alert(`Registration successful! Welcome as a ${selectedRole} to the Secondhand Book Marketplace.`);
+                registerForm.reset();
+                // Hide all error messages
+                document.querySelectorAll('.error-message').forEach(msg => {
+                    msg.style.display = 'none';
+                });
+            }
+        });
+
+        // Real-time validation on input
+        nameInput.addEventListener('input', validateName);
+        addressInput.addEventListener('input', validateAddress);
+        phoneInput.addEventListener('input', validatePhone);
+        emailInput.addEventListener('input', validateEmail);
+        usernameInput.addEventListener('input', validateUsername);
+        passwordInput.addEventListener('input', validatePassword);
+    </script>
+</body>
+</html>
