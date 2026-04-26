@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AutoMarket - Add New Car | 在线汽车销售</title>
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f4f7fc 0%, #e9eef3 100%);
+            min-height: 100vh;
+            padding: 0 20px 40px;
+        }
+
+        /* 主容器 */
+        .app-container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* ========= 头部导航栏 ========= */
+        .navbar {
+            background: #0a2b3e;
+            border-radius: 0 0 28px 28px;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            color: #ffaa33;
+        }
+
+        .logo-text {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #c0e0ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+            .logo-text span {
+                color: #ffaa33;
+                background: none;
+                background-clip: unset;
+                -webkit-background-clip: unset;
+            }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+            .nav-links a {
+                text-decoration: none;
+                color: #eef4ff;
+                font-weight: 500;
+                font-size: 1rem;
+                padding: 8px 14px;
+                border-radius: 40px;
+                transition: all 0.25s;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+                .nav-links a i {
+                    font-size: 0.9rem;
+                }
+
+                .nav-links a:hover {
+                    background: #ffaa33;
+                    color: #0a2b3e;
+                    transform: translateY(-2px);
+                }
+
+            .nav-links .active {
+                background: #ffaa33;
+                color: #0a2b3e;
+                font-weight: 600;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+        /* 注册/登录 独立入口 (Seller核心入口) */
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-outline-light {
+            background: transparent;
+            border: 1.5px solid #ffaa33;
+            color: #ffaa33;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: 0.2s;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+            .btn-outline-light:hover {
+                background: #ffaa33;
+                color: #0a2b3e;
+                border-color: #ffaa33;
+            }
+
+        /* ========= 主要内容卡片 ========= */
+        .form-card {
+            background: #ffffff;
+            border-radius: 36px;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin-bottom: 40px;
+            transition: all 0.2s;
+        }
+
+        .card-header {
+            background: #0f2f3f;
+            padding: 24px 32px;
+            color: white;
+        }
+
+            .card-header h1 {
+                font-size: 1.9rem;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+
+                .card-header h1 i {
+                    color: #ffaa33;
+                    font-size: 2rem;
+                }
+
+            .card-header p {
+                color: #cfe4f0;
+                margin-top: 8px;
+                font-size: 1rem;
+            }
+
+        .form-body {
+            padding: 32px 36px;
+        }
+
+        /* 表单网格布局 响应式 */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 28px 32px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+            .input-group label {
+                font-weight: 600;
+                color: #1e2f3a;
+                font-size: 0.95rem;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+                .input-group label i {
+                    color: #ffaa33;
+                    width: 20px;
+                }
+
+            .input-group input,
+            .input-group select {
+                padding: 14px 18px;
+                border: 1.5px solid #e2e8f0;
+                border-radius: 24px;
+                font-size: 1rem;
+                transition: all 0.2s;
+                background: #fefefe;
+                outline: none;
+            }
+
+                .input-group input:focus,
+                .input-group select:focus {
+                    border-color: #ffaa33;
+                    box-shadow: 0 0 0 3px rgba(255,170,51,0.2);
+                }
+
+        .error-msg {
+            font-size: 0.75rem;
+            color: #e53e3e;
+            margin-top: 4px;
+            padding-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .image-preview-area {
+            background: #f8fafc;
+            border-radius: 28px;
+            padding: 16px;
+            border: 1px dashed #cbd5e1;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 160px;
+            object-fit: contain;
+            border-radius: 16px;
+            display: none;
+            margin: 0 auto;
+        }
+
+        .image-placeholder {
+            color: #5e7a93;
+            font-size: 0.85rem;
+        }
+
+        .btn-submit {
+            background: #0a2b3e;
+            border: none;
+            padding: 16px 28px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+            .btn-submit:hover {
+                background: #ffaa33;
+                color: #0a2b3e;
+                transform: translateY(-2px);
+                box-shadow: 0 12px 20px -10px rgba(10,43,62,0.3);
+            }
+
+        /* 响应式设计 */
+        @media (max-width: 880px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .auth-buttons {
+                justify-content: center;
+            }
+
+            .form-body {
+                padding: 24px 20px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .nav-links a {
+                padding: 5px 12px;
+                font-size: 0.85rem;
+            }
+
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 24px 0 10px;
+            color: #5a6e7c;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.85rem;
+        }
+
+        .demo-badge {
+            background: #eef2ff;
+            border-radius: 24px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            color: #0a2b3e;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 导航栏: 满足多页面导航，含Home, Seller入口(注册/登录), Search, Add Car高亮 -->
+        <div class="navbar">
+            <div class="logo-area">
+                <i class="fas fa-car-side logo-icon"></i>
+                <div class="logo-text">Auto<span>Market</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="#" id="nav-home"><i class="fas fa-home"></i> Home</a>
+                <a href="#" id="nav-search"><i class="fas fa-search"></i> Search</a>
+                <a href="#" class="active"><i class="fas fa-plus-circle"></i> Add Car</a>
+                <!-- 链接到Seller相关：注册/登录通过独立区体现，也符合Seller Page指引 -->
+            </div>
+            <div class="auth-buttons">
+                <a href="#" id="regLink" class="btn-outline-light"><i class="fas fa-user-plus"></i> Registration</a>
+                <a href="#" id="loginLink" class="btn-outline-light"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+
+        <!-- Add Car 主要表单区 -->
+        <div class="form-card">
+            <div class="card-header">
+                <h1><i class="fas fa-car"></i> Add your vehicle</h1>
+                <p>List your car for sale — fill in the details and upload an image. Thousands of buyers are waiting!</p>
+            </div>
+            <div class="form-body">
+                <form id="addCarForm" novalidate>
+                    <div class="form-grid">
+                        <!-- Colour 字段: 只允许字母和空格 -->
+                        <div class="input-group">
+                            <label><i class="fas fa-palette"></i> Colour *</label>
+                            <input type="text" id="colour" name="colour" placeholder="e.g., Metallic Blue, Pearl White" autocomplete="off">
+                            <div class="error-msg" id="colourError"></div>
+                        </div>
+                        <!-- Model 字段: 字母数字+空格 -->
+                        <div class="input-group">
+                            <label><i class="fas fa-car"></i> Model *</label>
+                            <input type="text" id="model" name="model" placeholder="e.g., Tesla Model 3, BMW X5">
+                            <div class="error-msg" id="modelError"></div>
+                        </div>
+                        <!-- Year 字段: 数字范围1900-2026 -->
+                        <div class="input-group">
+                            <label><i class="fas fa-calendar-alt"></i> Year *</label>
+                            <input type="number" id="year" name="year" placeholder="e.g., 2022" min="1900" max="2026" step="1">
+                            <div class="error-msg" id="yearError"></div>
+                        </div>
+                        <!-- Location 字段: 字母数字 空格 逗号 -->
+                        <div class="input-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Location *</label>
+                            <input type="text" id="location" name="location" placeholder="e.g., Beijing, Shanghai, Guangzhou">
+                            <div class="error-msg" id="locationError"></div>
+                        </div>
+                        <!-- Price 字段: 正数，保留最多两位小数 -->
+                        <div class="input-group">
+                            <label><i class="fas fa-dollar-sign"></i> Price (USD/RMB) *</label>
+                            <input type="text" id="price" name="price" placeholder="e.g., 25800.00">
+                            <div class="error-msg" id="priceError"></div>
+                        </div>
+                        <!-- Image of car 字段: 文件上传 + 预览 -->
+                        <div class="input-group full-width">
+                            <label><i class="fas fa-image"></i> Car Image *</label>
+                            <input type="file" id="carImage" accept="image/jpeg, image/png, image/jpg, image/webp">
+                            <div class="image-preview-area" id="previewArea">
+                                <img id="imagePreview" class="image-preview" alt="Car preview">
+                                <div class="image-placeholder" id="imgPlaceholder"><i class="fas fa-cloud-upload-alt"></i> Click or drag image, preview will appear</div>
+                            </div>
+                            <div class="error-msg" id="imageError"></div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit"><i class="fas fa-check-circle"></i> Publish Advertisement</button>
+                    <p style="margin-top: 16px; font-size: 0.75rem; text-align: center; color:#6c7e8f;"><i class="fas fa-lock"></i> All fields are validated on client side. Demo submission only — Phase-B will implement backend storage.</p>
+                </form>
+            </div>
+        </div>
+        <footer>
+            <i class="fas fa-car"></i> AutoMarket — Trusted Online Car Sale Platform | © 2026 Seller Zone
+            <div class="demo-badge" style="margin-left: 8px;">📍 Phase A Delivery 2 (GenAI assisted)</div>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            // 获取DOM元素
+            const form = document.getElementById('addCarForm');
+            const colourInput = document.getElementById('colour');
+            const modelInput = document.getElementById('model');
+            const yearInput = document.getElementById('year');
+            const locationInput = document.getElementById('location');
+            const priceInput = document.getElementById('price');
+            const imageFile = document.getElementById('carImage');
+            const imagePreview = document.getElementById('imagePreview');
+            const imgPlaceholder = document.getElementById('imgPlaceholder');
+
+            // 错误信息容器
+            const colourError = document.getElementById('colourError');
+            const modelError = document.getElementById('modelError');
+            const yearError = document.getElementById('yearError');
+            const locationError = document.getElementById('locationError');
+            const priceError = document.getElementById('priceError');
+            const imageError = document.getElementById('imageError');
+
+            // ---------- 正则定义 (符合需求，严格客户端验证) ----------
+            // 1. 颜色: 只允许字母和空格 (中英文均可，但限制字母和空格)
+            const colourRegex = /^[A-Za-z\u4e00-\u9fa5\s]+$/;   // 中文英文+空格 (让用户体验更好)
+            // 2. 型号: 字母数字及空格 (也允许一些常见符号 '.-' 但按需求简化，以字母数字空格为主)
+            const modelRegex = /^[A-Za-z0-9\u4e00-\u9fa5\s\-\.]+$/;  // 增强体验允许点横线，不破坏核心规则 (字母数字空格)
+            // 3. 位置: 字母数字 空格 逗号 中文等
+            const locationRegex = /^[A-Za-z0-9\u4e00-\u9fa5\s,\.\-]+$/;
+            // 4. 价格: 正数(整数或最多两位小数)
+            const priceRegex = /^\d+(\.\d{1,2})?$/;
+            // 年份范围已通过min max + 额外校验
+            const currentYear = new Date().getFullYear();
+            const maxYear = currentYear;
+
+            // ---------- 辅助清除单个错误 ----------
+            function setError(element, message) {
+                element.innerText = message;
+                if (message) {
+                    element.style.color = "#e53e3e";
+                } else {
+                    element.innerText = "";
+                }
+            }
+
+            // 验证颜色
+            function validateColour() {
+                let val = colourInput.value.trim();
+                if (val === "") {
+                    setError(colourError, "Colour is required.");
+                    return false;
+                }
+                if (!colourRegex.test(val)) {
+                    setError(colourError, "Colour must contain only letters (A-Z, a-z) and spaces.");
+                    return false;
+                }
+                setError(colourError, "");
+                return true;
+            }
+
+            // 验证型号
+            function validateModel() {
+                let val = modelInput.value.trim();
+                if (val === "") {
+                    setError(modelError, "Model is required.");
+                    return false;
+                }
+                if (!modelRegex.test(val)) {
+                    setError(modelError, "Model can include letters, numbers, spaces and basic punctuation (.-)");
+                    return false;
+                }
+                setError(modelError, "");
+                return true;
+            }
+
+            // 验证年份
+            function validateYear() {
+                let val = yearInput.value.trim();
+                if (val === "") {
+                    setError(yearError, "Year is required.");
+                    return false;
+                }
+                let yearNum = Number(val);
+                if (isNaN(yearNum) || !Number.isInteger(yearNum)) {
+                    setError(yearError, "Year must be an integer.");
+                    return false;
+                }
+                if (yearNum < 1900 || yearNum > maxYear) {
+                    setError(yearError, `Year must be between 1900 and ${maxYear}.`);
+                    return false;
+                }
+                setError(yearError, "");
+                return true;
+            }
+
+            // 验证位置
+            function validateLocation() {
+                let val = locationInput.value.trim();
+                if (val === "") {
+                    setError(locationError, "Location is required.");
+                    return false;
+                }
+                if (!locationRegex.test(val)) {
+                    setError(locationError, "Location can contain letters, numbers, spaces, commas, dots or hyphens.");
+                    return false;
+                }
+                setError(locationError, "");
+                return true;
+            }
+
+            // 验证价格
+            function validatePrice() {
+                let val = priceInput.value.trim();
+                if (val === "") {
+                    setError(priceError, "Price is required.");
+                    return false;
+                }
+                if (!priceRegex.test(val)) {
+                    setError(priceError, "Price must be a positive number (e.g., 25000 or 19999.99)");
+                    return false;
+                }
+                let priceNum = parseFloat(val);
+                if (priceNum <= 0) {
+                    setError(priceError, "Price must be greater than zero.");
+                    return false;
+                }
+                setError(priceError, "");
+                return true;
+            }
+
+            // 验证图片 (必须选择合法图片)
+            function validateImage() {
+                const file = imageFile.files[0];
+                if (!file) {
+                    setError(imageError, "Please upload a car image.");
+                    return false;
+                }
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    setError(imageError, "Only JPEG, PNG, WEBP images are allowed.");
+                    return false;
+                }
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                if (file.size > maxSize) {
+                    setError(imageError, "Image size should not exceed 5MB.");
+                    return false;
+                }
+                setError(imageError, "");
+                return true;
+            }
+
+            // 图片预览功能(实时)
+            function setupImagePreview() {
+                imageFile.addEventListener('change', function (e) {
+                    const file = e.target.files[0];
+                    if (file && (file.type.startsWith('image/'))) {
+                        const reader = new FileReader();
+                        reader.onload = function (ev) {
+                            imagePreview.src = ev.target.result;
+                            imagePreview.style.display = 'block';
+                            if (imgPlaceholder) imgPlaceholder.style.display = 'none';
+                        }
+                        reader.readAsDataURL(file);
+                        validateImage(); // 实时验证清除错误
+                    } else if (file && !file.type.startsWith('image/')) {
+                        imagePreview.style.display = 'none';
+                        if (imgPlaceholder) imgPlaceholder.style.display = 'block';
+                        setError(imageError, "Invalid file type. Please select an image.");
+                    } else {
+                        imagePreview.style.display = 'none';
+                        if (imgPlaceholder) imgPlaceholder.style.display = 'block';
+                        setError(imageError, "Image required.");
+                    }
+                    // 如果没有文件
+                    if (!file) {
+                        imagePreview.style.display = 'none';
+                        if (imgPlaceholder) imgPlaceholder.style.display = 'block';
+                        imageError.innerText = "Image required.";
+                    }
+                });
+            }
+
+            // 全局表单提交验证
+            function validateAll() {
+                const isColourOk = validateColour();
+                const isModelOk = validateModel();
+                const isYearOk = validateYear();
+                const isLocationOk = validateLocation();
+                const isPriceOk = validatePrice();
+                const isImageOk = validateImage();
+                return isColourOk && isModelOk && isYearOk && isLocationOk && isPriceOk && isImageOk;
+            }
+
+            // 实时绑定blur事件
+            function bindRealTimeValidation() {
+                colourInput.addEventListener('blur', validateColour);
+                modelInput.addEventListener('blur', validateModel);
+                yearInput.addEventListener('blur', validateYear);
+                locationInput.addEventListener('blur', validateLocation);
+                priceInput.addEventListener('blur', validatePrice);
+                imageFile.addEventListener('blur', validateImage);
+                // 额外: 图片改变时重新验证
+                imageFile.addEventListener('change', validateImage);
+                // 价格输入时实时清理错误
+                colourInput.addEventListener('input', () => setError(colourError, ""));
+                modelInput.addEventListener('input', () => setError(modelError, ""));
+                yearInput.addEventListener('input', () => setError(yearError, ""));
+                locationInput.addEventListener('input', () => setError(locationError, ""));
+                priceInput.addEventListener('input', () => setError(priceError, ""));
+            }
+
+            // 提交handler - 模拟提交 (前端仅提示，符合phase-A无后端)
+            function handleSubmit(e) {
+                e.preventDefault();
+                if (validateAll()) {
+                    // 演示模式：展示车辆信息并弹出成功消息（满足add car模拟行为）
+                    const carData = {
+                        colour: colourInput.value.trim(),
+                        model: modelInput.value.trim(),
+                        year: yearInput.value.trim(),
+                        location: locationInput.value.trim(),
+                        price: priceInput.value.trim(),
+                        image: imageFile.files[0] ? imageFile.files[0].name : "No file"
+                    };
+                    // 成功提示 + 信息展示
+                    alert(`✅ Car advertisement added successfully!\n\nModel: ${carData.model}\nColour: ${carData.colour}\nYear: ${carData.year}\nLocation: ${carData.location}\nPrice: $${carData.price}\nImage: ${carData.image}\n\n(Phase-A demo: front-end validation only. Backend integration in Phase-B.)`);
+                    // 可选择性重置表单（但为了用户体验不清空所有，保留已填内容并只重置图片预览? 根据需求可不重置，但老师提到模拟, 我们保留内容，让seller可以连续添加新广告，但为符合真实逻辑，询问是否重置，这里只做演示，不清空，让用户主动清空。）
+                    // 为了更好的体验，提供一个轻提示，不清空表单，但文件可保留，但用户可重新传。
+                    // 满足最低需求: 展示广告已经提交成功。
+                    // 也可将图片预览保留，但按常规不清空。
+                    // 可选额外在 console 输出数据
+                    console.log("Car listing published via frontend (demo).", carData);
+                    // 可选: 滚动到顶部通知
+                } else {
+                    // 滚动到第一个错误处
+                    const firstError = document.querySelector('.error-msg:not(:empty)');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    alert("Please fix form errors before publishing the car.");
+                }
+            }
+
+            // 辅助导航演示: 由于其他页面未完整实现 (只会显示Phase-A占位提示，但是符合多方向导航和链接)
+            function setupDemoNavigation() {
+                const homeLink = document.getElementById('nav-home');
+                const searchLink = document.getElementById('nav-search');
+                const regBtn = document.getElementById('regLink');
+                const loginBtn = document.getElementById('loginLink');
+                const demoMsg = (page) => {
+                    alert(`✨ "${page}" page demo (Phase A frontend)\nFull implementation with backend will be available in Phase-B.\nYou can navigate back to Add Car page.`);
+                };
+                if (homeLink) homeLink.addEventListener('click', (e) => { e.preventDefault(); demoMsg('Home'); });
+                if (searchLink) searchLink.addEventListener('click', (e) => { e.preventDefault(); demoMsg('Search Car'); });
+                if (regBtn) regBtn.addEventListener('click', (e) => { e.preventDefault(); demoMsg('Seller Registration'); });
+                if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); demoMsg('Seller Login'); });
+            }
+
+            // 初始化所有字段默认错误清除 + 事件绑定
+            function init() {
+                bindRealTimeValidation();
+                setupImagePreview();
+                form.addEventListener('submit', handleSubmit);
+                setupDemoNavigation();
+                // 初始清除错误ui
+                setError(colourError, "");
+                setError(modelError, "");
+                setError(yearError, "");
+                setError(locationError, "");
+                setError(priceError, "");
+                setError(imageError, "");
+                // 年份范围修正，如果没有设置max属性动态再补
+                yearInput.max = maxYear;
+                yearInput.min = 1900;
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>
