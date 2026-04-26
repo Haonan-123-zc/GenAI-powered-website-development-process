@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car System Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body {
+            /* 稳定百分百显示 汽车背景 */
+            background-image: url(https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 2;
+            width: 400px;
+            padding: 45px 35px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 35px;
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 22px;
+        }
+
+        .input-group input {
+            width: 100%;
+            height: 50px;
+            padding: 0 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* 红色错误提示 */
+        .error-text {
+            color: #ff3333;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            height: 50px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #005fc5;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-mask"></div>
+
+    <div class="login-card">
+        <h2>Member Login</h2>
+
+        <div class="input-group">
+            <input type="text" id="account" placeholder="Account (A-Z a-z 0-9, ≥8 digits)">
+            <div class="error-text" id="accError">Only letters & numbers, at least 8 characters</div>
+        </div>
+
+        <div class="input-group">
+            <input type="password" id="pwd" placeholder="Password (A-Z a-z 0-9, ≥8 digits)">
+            <div class="error-text" id="pwdError">Only letters & numbers, at least 8 characters</div>
+        </div>
+
+        <button class="login-btn">Sign In</button>
+    </div>
+
+    <script>
+        // 规则：只能大小写+数字，长度≥8
+        const rule = /^[A-Za-z0-9]{8,}$/;
+
+        const account = document.getElementById('account');
+        const pwd = document.getElementById('pwd');
+        const accError = document.getElementById('accError');
+        const pwdError = document.getElementById('pwdError');
+
+        account.addEventListener('input', () => {
+            rule.test(account.value) ? accError.style.display = 'none' : accError.style.display = 'block';
+        })
+
+        pwd.addEventListener('input', () => {
+            rule.test(pwd.value) ? pwdError.style.display = 'none' : pwdError.style.display = 'block';
+        })
+    </script>
+</body>
+</html>
